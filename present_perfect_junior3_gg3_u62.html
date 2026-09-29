@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Present Perfect — Go Getter 3 Unit 6.2</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange:  #ea580c;
+    --org-lt:  #fff7ed;
+    --org-md:  #fed7aa;
+    --teal:    #0d9488;
+    --tel-lt:  #ccfbf1;
+    --purple:  #7c3aed;
+    --pur-lt:  #ede9fe;
+    --green:   #15803d;
+    --grn-lt:  #dcfce7;
+    --red:     #dc2626;
+    --red-lt:  #fee2e2;
+    --blue:    #1d4ed8;
+    --blu-lt:  #dbeafe;
+    --yellow:  #d97706;
+    --yel-lt:  #fef3c7;
+    --bg:      #fff7ed;
+    --white:   #ffffff;
+    --ink:     #1c0a00;
+    --muted:   #78716c;
+    --border:  #e7d5c0;
+    --r: 14px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    padding-bottom: 72px;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #7c2d12 0%, var(--orange) 100%);
+    padding: 36px 20px 30px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  header::before {
+    content: '🍕🥗🧁🍳🥘🧀🍰🥧🍜🥞';
+    position: absolute; top: 6px; left: 0; right: 0;
+    font-size: 1.1rem; letter-spacing: 10px; opacity: .2;
+  }
+  header .chef { font-size: 3rem; display: block; margin-bottom: 6px; }
+  header h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    color: white;
+    text-shadow: 2px 2px 0 rgba(0,0,0,.2);
+    position: relative;
+  }
+  header h1 span { color: #fde68a; }
+  header p {
+    color: rgba(255,255,255,.8); font-size: .88rem;
+    font-weight: 700; margin-top: 6px; position: relative;
+  }
+
+  /* GRAMMAR BOX */
+  .grammar-wrap { max-width: 760px; margin: 24px auto 0; padding: 0 16px; }
+  .grammar-card {
+    background: white; border-radius: 18px;
+    border: 3px solid var(--orange);
+    padding: 18px 22px;
+    box-shadow: 4px 4px 0 var(--org-md);
+  }
+  .grammar-card h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem; color: var(--orange);
+    text-align: center; margin-bottom: 14px;
+  }
+  .grammar-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .g-box {
+    border-radius: 12px; padding: 12px 13px;
+    font-size: .85rem; font-weight: 700; line-height: 1.65;
+  }
+  .g-aff  { background: var(--grn-lt); border: 2px solid var(--green); }
+  .g-neg  { background: var(--red-lt); border: 2px solid var(--red); }
+  .g-int  { background: var(--pur-lt); border: 2px solid var(--purple); }
+  .g-lbl  {
+    font-size: .62rem; font-weight: 900; letter-spacing: 1.5px;
+    text-transform: uppercase; display: block; margin-bottom: 4px;
+  }
+  .g-aff .g-lbl { color: var(--green); }
+  .g-neg .g-lbl { color: var(--red); }
+  .g-int .g-lbl { color: var(--purple); }
+  .g-eg { font-size: .77rem; color: var(--muted); margin-top: 4px; font-style: italic; }
+
+  /* IRREGULAR TABLE */
+  .irr-table {
+    width: 100%; border-collapse: collapse;
+    margin-top: 14px; font-size: .85rem;
+  }
+  .irr-table th {
+    background: var(--orange); color: white;
+    padding: 7px 10px; text-align: left;
+    font-size: .7rem; letter-spacing: 1px; text-transform: uppercase;
+  }
+  .irr-table td {
+    padding: 6px 10px; border-bottom: 1px solid var(--border);
+    font-weight: 700;
+  }
+  .irr-table tr:nth-child(even) td { background: var(--org-lt); }
+  .irr-table .pp { color: var(--orange); }
+
+  /* TABS */
+  .tabs {
+    max-width: 760px; margin: 24px auto 0;
+    padding: 0 16px;
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .tab {
+    font-family: 'Nunito', sans-serif;
+    font-size: .78rem; font-weight: 800;
+    border: 2.5px solid var(--border); border-radius: 10px;
+    background: white; color: var(--muted);
+    padding: 8px 16px; cursor: pointer; transition: all .18s;
+  }
+  .tab:hover { border-color: var(--orange); color: var(--orange); }
+  .tab.active { background: var(--orange); border-color: var(--orange); color: white; }
+
+  /* PAGE */
+  .page { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+  .mode { display: none; padding-top: 24px; }
+  .mode.active { display: block; }
+
+  /* SEC HEAD */
+  .sec-head {
+    display: flex; align-items: flex-start; gap: 12px;
+    margin-bottom: 14px; padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+    margin-top: 28px;
+  }
+  .sec-icon {
+    width: 36px; height: 36px; flex-shrink: 0;
+    background: var(--orange); border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .9rem; color: white; font-weight: 900;
+  }
+  .sec-head h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem; color: var(--ink); line-height: 1.3;
+  }
+  .sec-head p { font-size: .8rem; color: var(--muted); margin-top: 2px; }
+
+  /* TIP */
+  .tip {
+    background: var(--yel-lt); border-left: 3px solid var(--yellow);
+    border-radius: 0 var(--r) var(--r) 0;
+    padding: 9px 15px; font-size: .84rem;
+    color: #78350f; margin-bottom: 14px; font-weight: 700;
+  }
+
+  /* EX CARDS */
+  .ex-list { display: flex; flex-direction: column; gap: 10px; }
+  .ex-card {
+    background: white; border: 2px solid var(--border);
+    border-radius: var(--r); padding: 14px 18px;
+    transition: border-color .18s;
+  }
+  .ex-card:hover { border-color: var(--org-md); }
+  .q-line {
+    font-size: .96rem; font-weight: 700; line-height: 1.65;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 5px;
+  }
+  .q-num { color: var(--orange); font-weight: 900; margin-right: 3px; }
+
+  /* MC */
+  .mc-opts { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
+  .mc-btn {
+    font-family: 'Nunito', sans-serif;
+    font-size: .88rem; font-weight: 700;
+    border: 2px solid var(--border); border-radius: 8px;
+    background: white; padding: 7px 16px;
+    cursor: pointer; transition: all .18s;
+  }
+  .mc-btn:hover { border-color: var(--orange); color: var(--orange); }
+  .mc-btn.ok  { background: var(--grn-lt); border-color: var(--green); color: var(--green); font-weight: 800; }
+  .mc-btn.err { background: var(--red-lt); border-color: var(--red);   color: var(--red); }
+  .mc-btn:disabled { cursor: default; }
+  .mc-fb { font-size: .82rem; font-weight: 700; margin-top: 7px; }
+  .mc-fb.ok  { color: var(--green); }
+  .mc-fb.err { color: var(--red); }
+
+  /* FILL */
+  .b-inp {
+    font-family: 'Nunito', sans-serif;
+    font-size: .93rem; font-weight: 800;
+    border: none; border-bottom: 2.5px solid var(--ink);
+    background: transparent; outline: none;
+    width: 140px; padding: 0 4px 1px;
+    color: var(--blue); transition: border-color .2s;
+  }
+  .b-inp:focus { border-color: var(--orange); }
+  .b-inp.ok  { border-color: var(--green); color: var(--green); }
+  .b-inp.err { border-color: var(--red);   color: var(--red); }
+
+  /* CHECK */
+  .check-btn {
+    font-family: 'Nunito', sans-serif;
+    font-size: .88rem; font-weight: 800;
+    background: var(--orange); color: white;
+    border: none; border-radius: 10px;
+    padding: 11px 28px; cursor: pointer;
+    margin-top: 16px; transition: opacity .18s;
+    box-shadow: 0 3px 10px rgba(234,88,12,.25);
+  }
+  .check-btn:hover { opacity: .87; }
+  .score-line {
+    margin-top: 9px; font-size: .88rem; font-weight: 800;
+    color: var(--muted); min-height: 20px;
+  }
+  .score-line.good { color: var(--green); }
+  .score-line.mid  { color: var(--yellow); }
+  .score-line.low  { color: var(--red); }
+
+  /* TF */
+  .tf-row { display: flex; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
+  .tf-q { flex: 1; min-width: 200px; font-size: .95rem; font-weight: 700; line-height: 1.55; }
+  .tf-btns { display: flex; gap: 6px; }
+  .tf-btn {
+    font-family: 'Nunito', sans-serif;
+    font-size: .82rem; font-weight: 800;
+    border: 2px solid var(--border); border-radius: 8px;
+    background: white; padding: 6px 13px;
+    cursor: pointer; transition: all .18s;
+  }
+  .tf-btn:hover { border-color: var(--orange); }
+  .tf-btn.ok  { background: var(--grn-lt); border-color: var(--green); color: var(--green); }
+  .tf-btn.err { background: var(--red-lt); border-color: var(--red);   color: var(--red); }
+  .tf-btn:disabled { cursor: default; }
+
+  /* SHOW ANSWER */
+  .show-btn {
+    font-family: 'Nunito', sans-serif;
+    font-size: .7rem; font-weight: 800; letter-spacing: .4px;
+    text-transform: uppercase; border: 2px solid var(--border);
+    border-radius: 7px; background: transparent; color: var(--muted);
+    padding: 4px 11px; cursor: pointer; margin-top: 9px;
+    transition: all .18s; display: inline-block;
+  }
+  .show-btn:hover { border-color: var(--orange); color: var(--orange); }
+  .ans-box {
+    display: none; margin-top: 8px;
+    background: var(--grn-lt); border-left: 3px solid var(--green);
+    border-radius: 0 8px 8px 0; padding: 7px 13px;
+    font-size: .88rem; font-weight: 800; color: var(--green);
+  }
+  .ans-box.on { display: block; }
+
+  /* MATCHING */
+  .match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 18px; }
+  .match-col  { display: flex; flex-direction: column; gap: 8px; }
+  .m-btn {
+    font-family: 'Nunito', sans-serif;
+    font-size: .88rem; font-weight: 700;
+    border: 2px solid var(--border); border-radius: 10px;
+    background: white; padding: 11px 13px;
+    cursor: pointer; text-align: left; transition: all .18s;
+  }
+  .m-btn:hover  { border-color: var(--orange); }
+  .m-btn.sel    { border-color: var(--yellow); background: var(--yel-lt); }
+  .m-btn.done   { border-color: var(--green); background: var(--grn-lt); color: var(--green); font-weight: 800; cursor: default; }
+  .m-btn.shake  { animation: shake .3s; border-color: var(--red); background: var(--red-lt); }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+
+  /* STORY */
+  .story-card {
+    background: white; border: 2.5px solid var(--orange);
+    border-radius: var(--r); padding: 20px 22px;
+    font-size: .96rem; font-weight: 700; line-height: 2.5;
+    box-shadow: 0 2px 12px rgba(234,88,12,.1);
+  }
+  .story-title {
+    font-family: 'Fredoka One', cursive; font-size: 1rem;
+    color: var(--orange); margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* SPEAKING */
+  .speak-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .speak-card {
+    background: white; border: 2px solid var(--border);
+    border-radius: var(--r); padding: 16px;
+  }
+  .speak-label {
+    font-size: .62rem; font-weight: 900; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--orange); margin-bottom: 6px;
+  }
+  .speak-card p { font-size: .9rem; line-height: 1.55; font-weight: 700; }
+  .speak-hint { font-size: .78rem; color: var(--muted); margin-top: 6px; font-style: italic; font-weight: 400; }
+
+  hr { border: none; border-top: 2px dashed var(--border); margin: 28px 0 0; }
+
+  @media(max-width:520px){
+    .grammar-grid { grid-template-columns: 1fr; }
+    .match-grid   { grid-template-columns: 1fr; }
+    .speak-grid   { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="chef">👨‍🍳</span>
+  <h1>Present <span>Perfect</span>!</h1>
+  <p>Go Getter 3 · Unit 6.2 · Junior 3</p>
+</header>
+
+<!-- GRAMMAR BOX -->
+<div class="grammar-wrap">
+  <div class="grammar-card">
+    <h2>📖 Grammar Reference</h2>
+    <div class="grammar-grid">
+      <div class="g-box g-aff">
+        <span class="g-lbl">✅ Affirmative</span>
+        <b>have / has</b> + past participle<br>
+        I <b>have made</b> a cake.<br>
+        She <b>has cooked</b> dinner.<br>
+        They <b>have tried</b> sushi.
+        <div class="g-eg">I've / She's / They've</div>
+      </div>
+      <div class="g-box g-neg">
+        <span class="g-lbl">❌ Negative</span>
+        <b>haven't / hasn't</b> + p.p.<br>
+        I <b>haven't eaten</b> yet.<br>
+        He <b>hasn't bought</b> it.<br>
+        We <b>haven't tried</b> it.
+        <div class="g-eg">haven't = have not<br>hasn't = has not</div>
+      </div>
+      <div class="g-box g-int">
+        <span class="g-lbl">❓ Questions</span>
+        <b>Have / Has</b> + subject + p.p.<br>
+        <b>Have</b> you <b>ever</b> baked?<br>
+        <b>Has</b> she <b>finished</b> yet?<br>
+        Yes, I have. / No, I haven't.
+        <div class="g-eg">ever = alguna vez<br>never = nunca · yet = todavía</div>
+      </div>
+    </div>
+
+    <!-- Irregular verbs mini table -->
+    <table class="irr-table">
+      <thead>
+        <tr><th>Infinitive</th><th>Past Simple</th><th>Past Participle</th><th>Infinitive</th><th>Past Simple</th><th>Past Participle</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>make</td><td>made</td><td class="pp">made</td>   <td>eat</td><td>ate</td><td class="pp">eaten</td></tr>
+        <tr><td>buy</td><td>bought</td><td class="pp">bought</td> <td>drink</td><td>drank</td><td class="pp">drunk</td></tr>
+        <tr><td>bring</td><td>brought</td><td class="pp">brought</td><td>win</td><td>won</td><td class="pp">won</td></tr>
+        <tr><td>cook*</td><td>cooked</td><td class="pp">cooked</td><td>bake*</td><td>baked</td><td class="pp">baked</td></tr>
+        <tr><td>try*</td><td>tried</td><td class="pp">tried</td>  <td>finish*</td><td>finished</td><td class="pp">finished</td></tr>
+        <tr><td>go</td><td>went</td><td class="pp">gone/been</td> <td>have</td><td>had</td><td class="pp">had</td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:.72rem;color:var(--muted);margin-top:6px;font-weight:700;">* regular verbs</div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active" onclick="showTab('aff',this)">✅ Affirmative</button>
+  <button class="tab" onclick="showTab('neg',this)">❌ Negative</button>
+  <button class="tab" onclick="showTab('int',this)">❓ Questions</button>
+  <button class="tab" onclick="showTab('mixed',this)">⚡ Mixed</button>
+  <button class="tab" onclick="showTab('speak',this)">💬 Speaking</button>
+</div>
+
+<div class="page">
+
+  <!-- ══ AFFIRMATIVE ══ -->
+  <div class="mode active" id="tab-aff">
+
+    <div class="sec-head">
+      <div class="sec-icon">1</div>
+      <div><h2>have / has + past participle</h2><p>Choose the correct form</p></div>
+    </div>
+    <div class="tip">📌 Remember: I / you / we / they → HAVE · he / she / it → HAS</div>
+    <div class="ex-list" id="aff1"></div>
+
+    <hr>
+
+    <div class="sec-head">
+      <div class="sec-icon">2</div>
+      <div><h2>Complete with the present perfect</h2><p>Use the verb in brackets — affirmative</p></div>
+    </div>
+    <div class="tip">📌 Write the full present perfect form. Check the irregular verbs table!</div>
+    <div class="ex-list" id="aff2"></div>
+    <button class="check-btn" onclick="checkFill('aff2','aff2sc')">Check ✓</button>
+    <div class="score-line" id="aff2sc"></div>
+
+    <hr>
+
+    <div class="sec-head">
+      <div class="sec-icon">3</div>
+      <div><h2>Match the sentence halves</h2><p>Connect the beginning to the correct ending</p></div>
+    </div>
+    <div class="tip">📌 Click a beginning on the left, then its ending on the right.</div>
+    <div class="match-grid" id="aff3"></div>
+
+  </div>
+
+  <!-- ══ NEGATIVE ══ -->
+  <div class="mode" id="tab-neg">
+
+    <div class="sec-head">
+      <div class="sec-icon">4</div>
+      <div><h2>haven't or hasn't?</h2><p>Choose the correct negative form</p></div>
+    </div>
+    <div class="tip">📌 I/you/we/they → HAVEN'T · he/she/it → HASN'T</div>
+    <div class="ex-list" id="neg1"></div>
+
+    <hr>
+
+    <div class="sec-head">
+      <div class="sec-icon">5</div>
+      <div><h2>Make it negative!</h2><p>Rewrite using haven't / hasn't + verb</p></div>
+    </div>
+    <div class="tip">📌 Write the full negative sentence. Use the short form!</div>
+    <div class="ex-list" id="neg2"></div>
+    <button class="check-btn" onclick="checkFill('neg2','neg2sc')">Check ✓</button>
+    <div class="score-line" id="neg2sc"></div>
+
+    <hr>
+
+    <div class="sec-head">
+      <div class="sec-icon">6</div>
+      <div><h2>Correct or Incorrect?</h2><p>Spot the grammar mistakes</p></div>
+    </div>
+    <div class="tip">📌 Is the sentence correct ✔ or wrong ✘?</div>
+    <div class="ex-list" id="neg3"></div>
+    <button class="check-btn" onclick="checkTF('neg3','neg3sc')">Check ✓</button>
+    <div class="score-line" id="neg3sc"></div>
+
+  </div>
+
+  <!-- ══ QUESTIONS ══ -->
+  <div class="mode" id="tab-int">
+
+    <div class="sec-head">
+      <div class="sec-icon">7</div>
+      <div><h2>Have you ever…? Has she ever…?</h2><p>Choose the correct question word</p></div>
+    </div>
+    <div class="tip">📌 Have / Has + subject + EVER + past participle?</div>
+    <div class="ex-list" id="int1"></div>
+
+    <hr>
+
+    <div class="sec-head">
+      <div class="sec-icon">8</div>
+      <div><h2>Write the question!</h2><p>Use the prompts to form a present perfect question</p></div>
+    </div>
+    <div class="tip">📌 e.g. you / ever / eat → Have you ever eaten…?</div>
+    <div class="ex-list" id="int2"></div>
+    <button class="check-btn" onclick="checkFill('int2','int2sc')">Check ✓</button>
+    <div class="score-line" id="int2sc"></div>
+
+    <hr>
+
+    <div class="sec-head">
+      <div class="sec-icon">9</div>
+      <div><h2>Short answers</h2><p>Give the correct short answer</p></div>
+    </div>
+    <div class="tip">📌 Yes, I have. / No, I haven't. — Yes, she has. / No, she hasn't.</div>
+    <div class="ex-list" id="int3"></div>
+
+  </div>
+
+  <!-- ══ MIXED ══ -->
+  <div class="mode" id="tab-mixed">
+
+    <div class="sec-head">
+      <div class="sec-icon">10</div>
+      <div><h2>All together! Fill in the blank</h2><p>Aff · Neg · Questions — decide which one you need</p></div>
+    </div>
+    <div class="tip">📌 Look for clues! ever / never / yet / already can help you decide.</p></div>
+    <div class="ex-list" id="mx1"></div>
+    <button class="check-btn" onclick="checkFill('mx1','mx1sc')">Check ✓</button>
+    <div class="score-line" id="mx1sc"></div>
+
+    <hr>
+
+    <div class="sec-head">
+      <div class="sec-icon">11</div>
+      <div><h2>🍽️ Dinner Party Story — Complete the text!</h2><p>Use the present perfect form of the verbs in brackets</p></div>
+    </div>
+    <div class="tip">📌 Fill in every blank with the correct present perfect form.</div>
+    <div class="story-card" id="story"></div>
+    <button class="check-btn" onclick="checkFill('story','storySc')">Check ✓</button>
+    <div class="score-line" id="storySc"></div>
+
+    <hr>
+
+    <div class="sec-head">
+      <div class="sec-icon">12</div>
+      <div><h2>Spot the mistake!</h2><p>One thing is wrong in each sentence — find it!</p></div>
+    </div>
+    <div class="tip">📌 Read carefully, then click Show correction.</div>
+    <div class="ex-list" id="mx2"></div>
+
+  </div>
+
+  <!-- ══ SPEAKING ══ -->
+  <div class="mode" id="tab-speak">
+    <div class="sec-head" style="margin-top:28px">
+      <div class="sec-icon">💬</div>
+      <div><h2>Let's Talk! — Have you ever…?</h2><p>Answer in full sentences using the present perfect</p></div>
+    </div>
+    <div class="tip">📌 Use: I have / I haven't / I've never / Have you ever…? in your answers!</div>
+    <div class="speak-grid" id="speak"></div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+/* ════════ DATA ════════ */
+
+// EX 1 — have/has MC
+const aff1Data = [
+  { q:"She ___ made a chocolate cake for the party.", opts:["have","has","is"], ans:"has" },
+  { q:"We ___ tried the new sushi restaurant downtown.", opts:["has","have","did"], ans:"have" },
+  { q:"My mum ___ bought all the ingredients for the recipe.", opts:["have","has","did"], ans:"has" },
+  { q:"I ___ never eaten oysters before — they look strange!", opts:["has","have","am"], ans:"have" },
+  { q:"They ___ already finished cooking. Dinner is ready!", opts:["has","have","did"], ans:"have" },
+  { q:"He ___ won the school cooking competition three times.", opts:["have","has","did"], ans:"has" },
+  { q:"You ___ brought the dessert — thank you so much!", opts:["has","have","did"], ans:"have" },
+  { q:"Our teacher ___ cooked this dish many times before.", opts:["have","has","did"], ans:"has" },
+];
+
+// EX 2 — affirmative fill
+const aff2Data = [
+  { q:"I ___ (make) a banana smoothie. Would you like some?", ans:"have made", alt:"'ve made" },
+  { q:"She ___ (bring) dessert for everyone!", ans:"has brought", alt:"'s brought" },
+  { q:"They ___ (try) Japanese food for the first time.", ans:"have tried", alt:"'ve tried" },
+  { q:"He ___ (win) the cooking competition!", ans:"has won", alt:"'s won" },
+  { q:"We ___ (buy) everything on the shopping list.", ans:"have bought", alt:"'ve bought" },
+  { q:"The chef ___ (cook) this dish many times.", ans:"has cooked", alt:"'s cooked" },
+  { q:"I ___ (eat) sushi twice this month.", ans:"have eaten", alt:"'ve eaten" },
+  { q:"My parents ___ (go) to that restaurant before.", ans:"have been", alt:"'ve been|have gone|'ve gone" },
+];
+
+// EX 3 — matching
+const aff3L = [
+  "She has made",
+  "I've never eaten",
+  "They have bought",
+  "He has won",
+  "We've already tried",
+  "My mum has cooked",
+];
+const aff3R = [
+  "the cooking competition!",
+  "a delicious pasta for dinner.",
+  "sushi — it was amazing!",
+  "octopus before. Is it good?",
+  "all the ingredients.",
+  "that recipe — it's easy.",
+];
+const aff3Pairs = {
+  "She has made":         "a delicious pasta for dinner.",
+  "I've never eaten":     "octopus before. Is it good?",
+  "They have bought":     "all the ingredients.",
+  "He has won":           "the cooking competition!",
+  "We've already tried":  "that recipe — it's easy.",
+  "My mum has cooked":    "sushi — it was amazing!",
+};
+
+// EX 4 — haven't/hasn't MC
+const neg1Data = [
+  { q:"She ___ finished her meal yet — she's still eating.", opts:["haven't","hasn't","didn't"], ans:"hasn't" },
+  { q:"We ___ tried that new pizza place yet.", opts:["hasn't","haven't","don't"], ans:"haven't" },
+  { q:"He ___ brought the drinks he promised.", opts:["haven't","hasn't","didn't"], ans:"hasn't" },
+  { q:"I ___ ever eaten durian. Is it really that smelly?", opts:["hasn't","haven't","didn't"], ans:"haven't" },
+  { q:"They ___ bought enough pasta for everyone.", opts:["hasn't","haven't","didn't"], ans:"haven't" },
+  { q:"My sister ___ cooked anything in her life!", opts:["haven't","hasn't","didn't"], ans:"hasn't" },
+];
+
+// EX 5 — negative fill
+const neg2Data = [
+  { q:"She ___ ___ (eat) her vegetables yet.", ans:"hasn't eaten", twoBlank:true, ans1:"hasn't", ans2:"eaten" },
+  { q:"I ___ ___ (try) making sushi — it looks too difficult!", ans:"haven't tried", twoBlank:true, ans1:"haven't", ans2:"tried" },
+  { q:"We ___ ___ (buy) the birthday cake yet.", ans:"haven't bought", twoBlank:true, ans1:"haven't", ans2:"bought" },
+  { q:"He ___ ___ (finish) cooking — please wait.", ans:"hasn't finished", twoBlank:true, ans1:"hasn't", ans2:"finished" },
+  { q:"They ___ ___ (bring) anything to the party!", ans:"haven't brought", twoBlank:true, ans1:"haven't", ans2:"brought" },
+  { q:"My dad ___ ___ (make) dinner — we need to order pizza.", ans:"hasn't made", twoBlank:true, ans1:"hasn't", ans2:"made" },
+];
+
+// EX 6 — correct/incorrect TF
+const neg3Data = [
+  { s:'"She haven\'t cooked yet." — Correct?', ans:false, fix:"She HASN'T cooked yet. (she → hasn't)" },
+  { s:'"They haven\'t tried sushi before." — Correct?', ans:true },
+  { s:'"He hasn\'t never eaten octopus." — Correct?', ans:false, fix:"He has NEVER eaten octopus. (never = already negative)" },
+  { s:'"I haven\'t finished my soup yet." — Correct?', ans:true },
+  { s:'"We hasn\'t bought the ingredients." — Correct?', ans:false, fix:"We HAVEN'T bought the ingredients. (we → haven't)" },
+  { s:'"She hasn\'t won the competition yet." — Correct?', ans:true },
+];
+
+// EX 7 — Have/Has + ever MC
+const int1Data = [
+  { q:"___ you ever eaten Thai food?", opts:["Has","Have","Did"], ans:"Have" },
+  { q:"___ she ever won a cooking competition?", opts:["Have","Has","Did"], ans:"Has" },
+  { q:"___ they ever tried making sushi at home?", opts:["Has","Have","Did"], ans:"Have" },
+  { q:"___ he ever cooked a three-course meal?", opts:["Have","Has","Did"], ans:"Has" },
+  { q:"___ your parents ever been to Japan?", opts:["Has","Have","Did"], ans:"Have" },
+  { q:"___ your teacher ever brought food to class?", opts:["Have","Has","Did"], ans:"Has" },
+];
+
+// EX 8 — write the question fill
+const int2Data = [
+  { prompt:"you / ever / eat / sushi?", ans:"Have you ever eaten sushi?" },
+  { prompt:"she / ever / make / a birthday cake?", ans:"Has she ever made a birthday cake?" },
+  { prompt:"they / ever / try / Indian food?", ans:"Have they ever tried Indian food?" },
+  { prompt:"he / ever / win / a competition?", ans:"Has he ever won a competition?" },
+  { prompt:"you / ever / cook / dinner for your family?", ans:"Have you ever cooked dinner for your family?" },
+  { prompt:"your mum / ever / bring / food to school?", ans:"Has your mum ever brought food to school?" },
+];
+
+// EX 9 — short answers MC
+const int3Data = [
+  { q:'❓ "Have you ever eaten snails?" — (Yes)', opts:["Yes, I have.","Yes, I do.","Yes, I did."], ans:"Yes, I have." },
+  { q:'❓ "Has she tried the new restaurant?" — (No)', opts:["No, she hasn't.","No, she didn't.","No, she don't."], ans:"No, she hasn't." },
+  { q:'❓ "Have they bought the ingredients?" — (Yes)', opts:["Yes, they did.","Yes, they have.","Yes, they had."], ans:"Yes, they have." },
+  { q:'❓ "Has he won the competition?" — (No)', opts:["No, he hasn't.","No, he haven't.","No, he didn't."], ans:"No, he hasn't." },
+  { q:'❓ "Have you ever made pasta from scratch?" — (Yes)', opts:["Yes, I did.","Yes, I have.","Yes, I had."], ans:"Yes, I have." },
+];
+
+// EX 10 — mixed fill
+const mx1Data = [
+  { q:"___ you ever ___ (eat) frog's legs? 🐸", twoBlank:true, ans1:"Have", ans2:"eaten", ans:"Have / eaten" },
+  { q:"I ___ never ___ (try) Indian food. Is it spicy?", twoBlank:true, ans1:"have", ans2:"tried", ans:"have / tried" },
+  { q:"She ___ already ___ (finish) her homework.", twoBlank:true, ans1:"has", ans2:"finished", ans:"has / finished" },
+  { q:"We ___ (not/eat) yet — we're still cooking!", ans:"haven't eaten" },
+  { q:"___ he ___ (bring) the cake for the party?", twoBlank:true, ans1:"Has", ans2:"brought", ans:"Has / brought" },
+  { q:"They ___ (win) three competitions this year!", ans:"have won" },
+  { q:"I ___ (not/try) sushi, but I'd love to!", ans:"haven't tried" },
+  { q:"___ she ever ___ (make) chocolate brownies?", twoBlank:true, ans1:"Has", ans2:"made", ans:"Has / made" },
+];
+
+// EX 11 — story
+const storyBlanks = [
+  { before:"Mia and her friends", verb:"decide", past:"have decided", after:"to cook a big dinner for their families." },
+  { before:"Mia", verb:"make", past:"has made", after:"the pasta sauce from scratch — it smells incredible!" },
+  { before:"Her friend Leo", verb:"buy", past:"has bought", after:"fresh vegetables from the market." },
+  { before:"They", verb:"never/cook", past:"have never cooked", after:"for so many people before." },
+  { before:"Leo's mum", verb:"bring", past:"has brought", after:"a beautiful dessert from the bakery." },
+  { before:"Mia", verb:"not/finish", past:"hasn't finished", after:"setting the table yet, but she's nearly done." },
+  { before:"Everyone", verb:"try", past:"has tried", after:"the pasta and they love it!" },
+  { before:"It", verb:"be", past:"has been", after:"the best dinner they've ever had!" },
+];
+
+// EX 12 — errors
+const mx2Data = [
+  { wrong:"She have cooked a delicious meal.", fix:"She HAS cooked a delicious meal.", note:"she → has (not have)" },
+  { wrong:"Have you ever ate sushi?", fix:"Have you ever EATEN sushi?", note:"eaten = past participle of eat" },
+  { wrong:"I haven't never tried Thai food.", fix:"I have NEVER tried Thai food.", note:"never is already negative — don't use haven't with it" },
+  { wrong:"Has they brought the dessert?", fix:"HAVE they brought the dessert?", note:"they → Have (not Has)" },
+  { wrong:"We have went to that restaurant before.", fix:"We have BEEN (or GONE) to that restaurant before.", note:"gone/been = past participle of go" },
+  { wrong:"He hasn't finished his dinner still.", fix:"He hasn't finished his dinner YET.", note:"use 'yet' (not 'still') with negative present perfect" },
+];
+
+// SPEAKING
+const speakData = [
+  { label:"Food adventures 🌍", q:"Have you ever tried food from another country? What was it? Did you like it?" , hint:"I've tried… / I've never eaten… / It was…" },
+  { label:"In the kitchen 🍳", q:"Have you ever cooked or baked something? What did you make? Was it good?", hint:"I've made… / I've never cooked… / I helped…" },
+  { label:"Restaurants 🍽️", q:"Have you ever been to a really special restaurant? Where was it? What did you eat?", hint:"I've been to… / I've never been… / We ate…" },
+  { label:"Strange foods 😮", q:"Have you ever eaten something unusual or something you didn't like? What was it?", hint:"I've eaten… / I've never tried… / It tasted…" },
+];
+
+/* ════════ RENDER ════════ */
+
+function renderMC(id, data) {
+  const c = document.getElementById(id);
+  data.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'ex-card';
+    div.innerHTML = `
+      <div class="q-line"><span class="q-num">${i+1}.</span> ${item.q.replace(/___/g,'_______')}</div>
+      <div class="mc-opts">
+        ${item.opts.map(o=>`<button class="mc-btn" onclick="pickMC(this,'${o}','${item.ans}','mcfb${id}${i}')">${o}</button>`).join('')}
+      </div>
+      <div class="mc-fb" id="mcfb${id}${i}"></div>`;
+    c.appendChild(div);
+  });
+}
+
+function pickMC(btn, chosen, correct, fbId) {
+  const row = btn.closest('.mc-opts');
+  row.querySelectorAll('.mc-btn').forEach(b=>b.disabled=true);
+  const fb = document.getElementById(fbId);
+  if(chosen===correct) {
+    btn.classList.add('ok'); fb.textContent='✔ Correct!'; fb.className='mc-fb ok';
+  } else {
+    btn.classList.add('err');
+    fb.textContent=`✘ Answer: ${correct}`; fb.className='mc-fb err';
+    row.querySelectorAll('.mc-btn').forEach(b=>{ if(b.textContent===correct) b.classList.add('ok'); });
+  }
+}
+
+function renderFill(id, data) {
+  const c = document.getElementById(id);
+  data.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'ex-card';
+    let qHtml = '';
+    if(item.prompt) {
+      // question from prompt
+      const promptEl = `<span style="color:var(--muted);font-size:.82rem">${item.prompt}</span><br>`;
+      qHtml = `<span class="q-num">${i+1}.</span> ${promptEl}<input class="b-inp" style="width:300px" type="text" data-ans="${item.ans.toLowerCase()}" placeholder="Write the question…">`;
+    } else if(item.twoBlank) {
+      qHtml = `<span class="q-num">${i+1}.</span> ` + item.q
+        .replace('___', `<input class="b-inp" type="text" data-ans="${item.ans1.toLowerCase()}" placeholder="...">`)
+        .replace('___', `<input class="b-inp" type="text" data-ans="${item.ans2.toLowerCase()}" placeholder="...">`);
+    } else {
+      const accepted = [item.ans.toLowerCase(), ...(item.alt?item.alt.split('|'):[])].join('|');
+      qHtml = `<span class="q-num">${i+1}.</span> ` + item.q.replace('___', `<input class="b-inp" type="text" data-ans="${accepted}" placeholder="...">`);
+    }
+    const ansVal = item.twoBlank ? `${item.ans1} / ${item.ans2}` : (item.ans || '');
+    div.innerHTML = `
+      <div class="q-line">${qHtml}</div>
+      <button class="show-btn" onclick="toggleAns('fa-${id}-${i}',this)">Show answer</button>
+      <div class="ans-box" id="fa-${id}-${i}">✔ ${ansVal}</div>`;
+    c.appendChild(div);
+  });
+}
+
+function checkFill(id, scoreId) {
+  const c = document.getElementById(id);
+  let tot=0, cor=0;
+  c.querySelectorAll('.b-inp').forEach(inp => {
+    tot++;
+    inp.classList.remove('ok','err');
+    const val = inp.value.toLowerCase().trim().replace(/'/g,"'").replace(/\s+/g,' ');
+    const accepted = inp.dataset.ans.replace(/'/g,"'").split('|');
+    if(accepted.some(a => val===a || val.includes(a))) { inp.classList.add('ok'); cor++; }
+    else inp.classList.add('err');
+  });
+  showScore(scoreId, cor, tot);
+}
+
+function renderTF(id, data) {
+  const c = document.getElementById(id);
+  data.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'ex-card';
+    div.innerHTML = `
+      <div class="tf-row">
+        <div class="tf-q"><span class="q-num">${i+1}.</span> ${item.s}</div>
+        <div class="tf-btns">
+          <button class="tf-btn" onclick="pickTF(this,true,${item.ans},'tffb${id}${i}','${item.fix||''}')">✔ Correct</button>
+          <button class="tf-btn" onclick="pickTF(this,false,${item.ans},'tffb${id}${i}','${item.fix||''}')">✘ Wrong</button>
+        </div>
+      </div>
+      <div class="mc-fb" id="tffb${id}${i}"></div>`;
+    c.appendChild(div);
+  });
+}
+
+function pickTF(btn, chosen, correct, fbId, fix) {
+  const btns = btn.closest('.tf-btns');
+  btns.querySelectorAll('.tf-btn').forEach(b=>b.disabled=true);
+  const fb = document.getElementById(fbId);
+  if(chosen===correct) {
+    btn.classList.add('ok'); fb.textContent='✔ Right!'; fb.className='mc-fb ok';
+  } else {
+    btn.classList.add('err');
+    fb.textContent = fix ? `✘ Wrong! ${fix}` : '✘ There is an error!';
+    fb.className='mc-fb err';
+    btns.querySelectorAll('.tf-btn').forEach(b=>{
+      if((b.textContent.includes('Correct'))===correct) b.classList.add('ok');
+    });
+  }
+}
+
+function checkTF(id, scoreId) {
+  const cards = document.querySelectorAll(`#${id} .ex-card`);
+  let tot=0, cor=0;
+  cards.forEach(c=>{ tot++; if(c.querySelector('.tf-btn.ok')) cor++; });
+  showScore(scoreId, cor, tot);
+}
+
+// Matching
+let mSel=null;
+const mPairs = aff3Pairs;
+function renderMatch(id, lefts, rights, pairs) {
+  const c = document.getElementById(id);
+  const shuffled = [...rights].sort(()=>Math.random()-.5);
+  let lHTML='', rHTML='';
+  lefts.forEach(l  => lHTML+=`<button class="m-btn" data-side="L" data-key="${l}" onclick="mClick(this)">${l}</button>`);
+  shuffled.forEach(r => rHTML+=`<button class="m-btn" data-side="R" data-key="${r}" onclick="mClick(this)">${r}</button>`);
+  c.innerHTML=`<div class="match-col">${lHTML}</div><div class="match-col">${rHTML}</div>`;
+}
+
+const ms={};
+function mClick(btn){
+  if(btn.classList.contains('done')) return;
+  if(btn.dataset.side==='L'){ if(ms.L) ms.L.classList.remove('sel'); ms.L=btn; btn.classList.add('sel'); }
+  else                       { if(ms.R) ms.R.classList.remove('sel'); ms.R=btn; btn.classList.add('sel'); }
+  if(ms.L && ms.R){
+    const ok = aff3Pairs[ms.L.dataset.key]===ms.R.dataset.key;
+    if(ok){
+      ms.L.classList.add('done'); ms.L.classList.remove('sel');
+      ms.R.classList.add('done');
+    } else {
+      const l=ms.L,r=ms.R;
+      l.classList.add('shake'); r.classList.add('shake'); l.classList.remove('sel');
+      setTimeout(()=>{ l.classList.remove('shake'); r.classList.remove('shake'); },400);
+    }
+    ms.L=null; ms.R=null;
+  }
+}
+
+// Story
+function renderStory() {
+  const c = document.getElementById('story');
+  let html = `<div class="story-title">🍽️ Mia's Big Dinner</div>`;
+  storyBlanks.forEach((b,i) => {
+    const ans = b.past.toLowerCase().replace(/'/g,"'");
+    const label = b.verb.includes('/')
+      ? `(${b.verb.replace('/',' + ')} → negative!)`
+      : `(${b.verb})`;
+    html += `<span>${b.before} <input class="b-inp" style="width:180px" type="text" data-ans="${ans}" placeholder="${label}"> ${b.after}</span><br>`;
+  });
+  c.innerHTML = html;
+}
+
+// Errors
+function renderErrors(id, data) {
+  const c = document.getElementById(id);
+  data.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'ex-card';
+    div.innerHTML = `
+      <div class="q-line"><span class="q-num">${i+1}.</span> <em style="color:var(--muted)">${item.wrong}</em></div>
+      <button class="show-btn" onclick="toggleAns('errans${i}',this)">Show correction</button>
+      <div class="ans-box" id="errans${i}">
+        ✔ <b>${item.fix}</b><br>
+        <span style="font-weight:600;font-size:.82rem">💡 ${item.note}</span>
+      </div>`;
+    c.appendChild(div);
+  });
+}
+
+// Speaking
+function renderSpeaking(id, data) {
+  const c = document.getElementById(id);
+  data.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'speak-card';
+    div.innerHTML = `<div class="speak-label">${item.label}</div><p>${item.q}</p><p class="speak-hint">💡 ${item.hint}</p>`;
+    c.appendChild(div);
+  });
+}
+
+function toggleAns(id, btn) {
+  const box = document.getElementById(id);
+  box.classList.toggle('on');
+  btn.textContent = box.classList.contains('on') ? 'Hide answer' : 'Show answer';
+}
+
+function showScore(id, cor, tot) {
+  const el = document.getElementById(id);
+  if(!el) return;
+  const pct = Math.round(cor/tot*100);
+  const e = pct===100?'🎉 Perfect!':pct>=70?'⭐ Good job!':'💪 Keep going!';
+  el.textContent = `${e} — ${cor} / ${tot} correct (${pct}%)`;
+  el.className = 'score-line '+(pct===100?'good':pct>=60?'mid':'low');
+}
+
+function showTab(id, btn) {
+  document.querySelectorAll('.mode').forEach(m=>m.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ════════ INIT ════════ */
+renderMC('aff1', aff1Data);
+renderFill('aff2', aff2Data);
+renderMatch('aff3', aff3L, aff3R, aff3Pairs);
+renderMC('neg1', neg1Data);
+renderFill('neg2', neg2Data);
+renderTF('neg3', neg3Data);
+renderMC('int1', int1Data);
+renderFill('int2', int2Data);
+renderMC('int3', int3Data);
+renderFill('mx1', mx1Data);
+renderStory();
+renderErrors('mx2', mx2Data);
+renderSpeaking('speak', speakData);
+</script>
+</body>
+</html>
